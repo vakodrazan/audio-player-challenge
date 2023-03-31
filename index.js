@@ -13,9 +13,6 @@ const cover = document.getElementById('cover');
 const currTime = document.querySelector('#currTime');
 const durTime = document.querySelector('#durTime');
 
-// let audioF = new Audio();
-let fileInput = document.getElementById('fileInput');
-
 const songs = [
   'Bakozetra-Veloma-Rô',
   'Mangilatra-By-BAKOZETRA',
