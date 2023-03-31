@@ -6,8 +6,8 @@
 
 body {
   background-image: linear-gradient(0deg,
-      #8A2BE2,
-      #9370DB);
+      #c7bbdf,
+      #f1eff4);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -30,39 +30,18 @@ body {
 
 .img-container {
   position: relative;
-  width: 110px;
-}
-
-/* styling the image to look like a disc by placing a small circle in it*/
-.img-container::after {
-  content: '';
-  background-color: #fff;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  transform: translate(-50%, 50%);
+  width: 50px;
 }
 
 /* using animation to make the image rotate continiously when music is playing */
 .img-container img {
   border-radius: 50%;
   object-fit: cover;
-  height: 110px;
+  height: 50px;
   width: inherit;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   animation: rotate 3s linear infinite;
 
   animation-play-state: paused;
-}
-
-/* making sure the image rotates only when the music is playing */
-.music-container.play .img-container img {
-  animation-play-state: running;
 }
 
 /* creating the animation keyframe and setting the image to rotate 360 degrees continiously */
@@ -111,7 +90,8 @@ body {
   top: 0;
   left: 20px;
   width: calc(100% - 40px);
-  padding: 10px 10px 10px 150px;
+  padding: 10px;
+  text-align: center;
   opacity: 0;
   transform: translateY(0%);
   transition: transform 0.3s ease-in, opacity 0.3s ease-in;
@@ -126,7 +106,11 @@ body {
 
 .music-info h4 {
   margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
+
 
 /* styling the song progress container */
 .progress-container {
@@ -145,4 +129,25 @@ body {
   height: 100%;
   width: 0%;
   transition: width 0.1s linear;
+}
+
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.audio-title {
+  word-wrap: break-word;
+}
+
+.upload-file {
+  background-color: white;
+  padding: 10px;
+}
+
+.audio-input {
+  display: none;
 }

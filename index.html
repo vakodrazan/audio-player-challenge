@@ -12,7 +12,13 @@
 
 <body>
   <h1>Music Player</h1>
-  <input type="file" name="upload" id="upload" accept="audio/*" onchange="loadFile(event)">
+  <div class="upload-container">
+    <label for="upload" class="upload-file">
+      Select audio
+      <input type="file" name="upload" id="upload" class="audio-input" accept="audio/*" onchange="loadFile(event)">
+    </label>
+    <span id="audio-title" class="audio-title">No file chosen</span>
+  </div>
   <div class="music-container" id="music-container">
     <div class="music-info">
       <h4 id="title"></h4>
@@ -20,9 +26,9 @@
         <div class="progress" id="progress"></div>
       </div>
     </div>
-    <audio src="music/Polo G – I Know.mp3" id="audio"></audio>
+    <audio id="audio"></audio>
     <div class="img-container">
-      <img src="images/Polo G – I Know.jpg" alt="music-cover" id="cover" />
+      <img src="images/music-player-icon.jpeg" alt="music-cover" id="cover" />
     </div>
     <div class="navigation">
       <button id="prev" class="action-btn">
@@ -30,6 +36,9 @@
       </button>
       <button id="play" class="action-btn action-btn-big">
         <i class="fas fa-play"></i>
+      </button>
+      <button id="stop" class="action-btn action-btn-big">
+        <i class="fas fa-stop"></i>
       </button>
       <button id="next" class="action-btn">
         <i class="fas fa-forward"></i>

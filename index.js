@@ -2,6 +2,8 @@ const musicContainer = document.getElementById('music-container');
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
+const stopBtn = document.getElementById('stop');
+const uploadTitle = document.getElementById('audio-title');
 
 const audio = document.getElementById('audio');
 const progress = document.getElementById('progress');
@@ -11,25 +13,35 @@ const cover = document.getElementById('cover');
 const currTime = document.querySelector('#currTime');
 const durTime = document.querySelector('#durTime');
 
-// var audioF = new Audio();
-var fileInput = document.getElementById('fileInput');
-
-function loadFile(event) {
-  var files = event.target.files;
-  if (files.length > 0) {
-    var file = files[0];
-    audio.src = URL.createObjectURL(file);
-    audio.load();
-  }
-}
-
-// console.log('audioF::::::', audioF.localName);
+// let audioF = new Audio();
+let fileInput = document.getElementById('fileInput');
 
 const songs = [
-  'Juice WRLD Ft Benny Blanco - Real Shit',
-  'Lil Baby, Lil Durk ft Rodwave - Rich Off Pain',
-  'Polo G – I Know',
+  'Bakozetra-Veloma-Rô',
+  'Mangilatra-By-BAKOZETRA',
+  'Scars-to-your-beautiful-Alessia-Cara',
+  'MAGE4-Rediredy',
 ];
+
+function loadFile(event) {
+  let files = event.target.files;
+
+  if (files.length > 0) {
+    let file = files[0];
+    const fileName = file?.name.split('.');
+    const songTitle = file?.name.replace(
+      `.${fileName[fileName.length - 1]}`,
+      ''
+    );
+    title.innerText = songTitle;
+    uploadTitle.innerText = file?.name;
+    audio.src = URL.createObjectURL(file);
+    audio.load();
+
+    audio.currentTime = 0;
+    playSong();
+  }
+}
 
 let songIndex = 2;
 
@@ -38,7 +50,7 @@ loadSong(songs[songIndex]);
 function loadSong(song) {
   title.innerText = song;
 
-  cover.src = `images/${song}.jpg`;
+  audio.src = `music/${song}.mp3`;
 }
 
 playBtn.addEventListener('click', () => {
@@ -57,8 +69,6 @@ function playSong() {
   playBtn.querySelector('i.fas').classList.add('fa-pause');
 
   audio.play();
-
-  console.log('audio::::::', audio);
 }
 
 function pauseSong() {
@@ -68,7 +78,15 @@ function pauseSong() {
 
   audio.pause();
 }
+function stopSong() {
+  musicContainer.classList.remove('play');
+  playBtn.querySelector('i.fas').classList.add('fa-play');
+  playBtn.querySelector('i.fas').classList.remove('fa-pause');
+  audio.pause();
+  audio.currentTime = 0;
+}
 
+stopBtn.addEventListener('click', stopSong);
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
 
@@ -78,7 +96,6 @@ function prevSong() {
   if (songIndex < 0) {
     songIndex = songs.length - 1;
   }
-
   loadSong(songs[songIndex]);
 
   playSong();
