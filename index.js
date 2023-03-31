@@ -1,17 +1,14 @@
 const musicContainer = document.getElementById('music-container');
 const playBtn = document.getElementById('play');
-const prevBtn = document.getElementById('prev');
+const prevBtn = document.getElementById('previous');
 const nextBtn = document.getElementById('next');
 const stopBtn = document.getElementById('stop');
 const uploadTitle = document.getElementById('audio-title');
 
-const audio = document.getElementById('audio');
+const audioElm = document.getElementById('audio');
 const progress = document.getElementById('progress');
 const progressContainer = document.getElementById('progress-container');
-const title = document.getElementById('title');
-const cover = document.getElementById('cover');
-const currTime = document.querySelector('#currTime');
-const durTime = document.querySelector('#durTime');
+const title = document.getElementById('music-info-title');
 
 const songs = [
   'Bakozetra-Veloma-Rô',
@@ -32,10 +29,10 @@ function loadFile(event) {
     );
     title.innerText = songTitle;
     uploadTitle.innerText = file?.name;
-    audio.src = URL.createObjectURL(file);
-    audio.load();
+    audioElm.src = URL.createObjectURL(file);
+    audioElm.load();
 
-    audio.currentTime = 0;
+    audioElm.currentTime = 0;
     playSong();
   }
 }
@@ -47,25 +44,15 @@ loadSong(songs[songIndex]);
 function loadSong(song) {
   title.innerText = song;
 
-  audio.src = `music/${song}.mp3`;
+  audioElm.src = `music/${song}.mp3`;
 }
-
-playBtn.addEventListener('click', () => {
-  const isPlaying = musicContainer.classList.contains('play');
-
-  if (isPlaying) {
-    pauseSong();
-  } else {
-    playSong();
-  }
-});
 
 function playSong() {
   musicContainer.classList.add('play');
   playBtn.querySelector('i.fas').classList.remove('fa-play');
   playBtn.querySelector('i.fas').classList.add('fa-pause');
 
-  audio.play();
+  audioElm.play();
 }
 
 function pauseSong() {
@@ -73,19 +60,15 @@ function pauseSong() {
   playBtn.querySelector('i.fas').classList.add('fa-play');
   playBtn.querySelector('i.fas').classList.remove('fa-pause');
 
-  audio.pause();
+  audioElm.pause();
 }
 function stopSong() {
   musicContainer.classList.remove('play');
   playBtn.querySelector('i.fas').classList.add('fa-play');
   playBtn.querySelector('i.fas').classList.remove('fa-pause');
-  audio.pause();
-  audio.currentTime = 0;
+  audioElm.pause();
+  audioElm.currentTime = 0;
 }
-
-stopBtn.addEventListener('click', stopSong);
-prevBtn.addEventListener('click', prevSong);
-nextBtn.addEventListener('click', nextSong);
 
 function prevSong() {
   songIndex--;
@@ -110,22 +93,33 @@ function nextSong() {
   playSong();
 }
 
-audio.addEventListener('timeupdate', updateProgress);
-
 function updateProgress(e) {
   const { duration, currentTime } = e.srcElement;
   const progressPercent = (currentTime / duration) * 100;
   progress.style.width = `${progressPercent}%`;
 }
 
-progressContainer.addEventListener('click', setProgress);
-
 function setProgress(e) {
   const width = this.clientWidth;
   const clickX = e.offsetX;
-  const duration = audio.duration;
+  const duration = audioElm.duration;
 
-  audio.currentTime = (clickX / width) * duration;
+  audioElm.currentTime = (clickX / width) * duration;
 }
 
-audio.addEventListener('ended', nextSong);
+playBtn.addEventListener('click', () => {
+  const isPlaying = musicContainer.classList.contains('play');
+
+  if (isPlaying) {
+    pauseSong();
+  } else {
+    playSong();
+  }
+});
+
+stopBtn.addEventListener('click', stopSong);
+prevBtn.addEventListener('click', prevSong);
+nextBtn.addEventListener('click', nextSong);
+audioElm.addEventListener('timeupdate', updateProgress);
+progressContainer.addEventListener('click', setProgress);
+audioElm.addEventListener('ended', nextSong);
