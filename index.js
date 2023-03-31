@@ -6,6 +6,7 @@ const audioElm = document.getElementById('audio');
 const progress = document.getElementById('progress');
 const progressContainer = document.getElementById('progress-container');
 const title = document.getElementById('music-info-title');
+const canvas = document.getElementById('canvasElm');
 
 function loadFile(event) {
   const files = event.target.files;
@@ -24,6 +25,9 @@ function loadFile(event) {
 
     audioElm.currentTime = 0;
     playSong();
+
+    playBtn.disabled = false;
+    stopBtn.disabled = false;
   }
 }
 
@@ -63,17 +67,10 @@ function setProgress(e) {
   audioElm.currentTime = (clickX / width) * duration;
 }
 
-playBtn.addEventListener('click', () => {
-  const isPlaying = musicContainer.classList.contains('play');
-  isPlaying ? pauseSong() : playSong();
-});
-
 function visualiserAudio() {
   const context = new AudioContext();
   const src = context.createMediaElementSource(audioElm);
   let analyser = context.createAnalyser();
-
-  let canvas = document.getElementById('canvasElm');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   const ctx = canvas.getContext('2d');
@@ -103,11 +100,11 @@ function visualiserAudio() {
 
     for (let i = 0; i < bufferLength; i++) {
       barHeight = dataArray[i];
-      const r = barHeight + 25 * (i / bufferLength);
-      const g = 250 * (i / bufferLength);
-      const b = 50;
+      const red = barHeight + 25 * (i / bufferLength);
+      const green = 250 * (i / bufferLength);
+      const blue = 90;
 
-      ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+      ctx.fillStyle = 'rgb(' + red + ',' + green + ',' + blue + ')';
       ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
 
       x += barWidth + 1;
@@ -116,6 +113,13 @@ function visualiserAudio() {
   renderFrame();
 }
 
+playBtn.disabled = true;
+stopBtn.disabled = true;
+
+playBtn.addEventListener('click', () => {
+  const isPlaying = musicContainer.classList.contains('play');
+  isPlaying ? pauseSong() : playSong();
+});
 stopBtn.addEventListener('click', stopSong);
 audioElm.addEventListener('timeupdate', updateProgress);
 progressContainer.addEventListener('click', setProgress);

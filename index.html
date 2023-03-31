@@ -15,14 +15,12 @@
     <div class="upload-container">
       <label for="upload" class="upload-file">
         Upload audio
-        <input type="file" name="upload" id="upload" class="audio-input" accept="audio/*" multiple
-          onchange="loadFile(event)">
+        <input type="file" name="upload" id="upload" class="audio-input" accept="audio/*" onchange="loadFile(event)">
       </label>
       <span id="audio-title" class="audio-title">No file chosen</span>
     </div>
     <div class="music-container" id="music-container">
       <div class="music-info">
-        <canvas id="canvasElm"></canvas>
         <h4 id="music-info-title"></h4>
         <div class="progress-container" id="progress-container">
           <div class="progress" id="progress"></div>
@@ -33,14 +31,15 @@
         <img src="images/music-player-icon.jpeg" alt="music player icon" id="cover" />
       </div>
       <div class="navigation">
-        <button id="play" class="action-btn action-btn-big">
+        <button id="play" class="action-btn action-btn-big" disabled>
           <i class="fas fa-play"></i>
         </button>
-        <button id="stop" class="action-btn action-btn-big">
+        <button id="stop" class="action-btn action-btn-big" disabled>
           <i class="fas fa-stop"></i>
         </button>
       </div>
     </div>
+    <canvas id="canvasElm"></canvas>
     <script src="index.js"></script>
   </body>
 
