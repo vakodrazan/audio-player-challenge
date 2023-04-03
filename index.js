@@ -13,12 +13,7 @@ function loadFile(event) {
 
   if (files.length > 0) {
     const file = files[0];
-    const fileName = file?.name.split('.');
-    const songTitle = file?.name.replace(
-      `.${fileName[fileName.length - 1]}`,
-      ''
-    );
-    title.innerText = songTitle;
+    title.innerText = file?.name;
     uploadTitle.innerText = file?.name;
     audioElm.src = URL.createObjectURL(file);
     audioElm.load();
@@ -57,6 +52,14 @@ function stopSong() {
 function updateProgress(e) {
   const { duration, currentTime } = e.srcElement;
   const progressPercent = (currentTime / duration) * 100;
+
+  // Check if song is done playing
+  if (currentTime === duration) {
+    pauseSong();
+  } else {
+    playSong;
+  }
+
   progress.style.width = `${progressPercent}%`;
 }
 
